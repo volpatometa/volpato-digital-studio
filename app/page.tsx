@@ -6,6 +6,7 @@ import HowItWorks from "@/app/components/HowItWorks";
 import StatsSection from "@/app/components/StatsSection";
 import AboutSection from "@/app/components/AboutSection";
 import CTASection from "@/app/components/CTASection";
+import FloatingWhatsApp from "@/app/components/FloatingWhatsApp";
 import Footer from "@/app/components/Footer";
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
       <AboutSection />
       <CTASection />
       <Footer />
+      <FloatingWhatsApp />
     </main>
   );
 }
