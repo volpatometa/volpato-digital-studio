@@ -3,12 +3,15 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+const WHATSAPP_LINK =
+  "https://wa.me/5581992821652?text=Olá!%20Vim%20pelo%20site%20e%20quero%20um%20site%20para%20meu%20negócio.";
+
 const links = [
   { href: "#inicio", label: "Início" },
   { href: "#sobre", label: "Sobre" },
   { href: "#servicos", label: "Serviços" },
   { href: "#como-funciona", label: "Como Funciona" },
-  { href: "#contato", label: "Contato" },
+  { href: WHATSAPP_LINK, label: "Contato" },
 ];
 
 export default function Navbar() {
@@ -44,7 +47,10 @@ export default function Navbar() {
             {/* Logo */}
             <motion.a
               href="#inicio"
-              onClick={(e) => { e.preventDefault(); handleLinkClick("#inicio"); }}
+              onClick={(e) => {
+                e.preventDefault();
+                handleLinkClick("#inicio");
+              }}
               className="flex items-center gap-3 group"
               whileHover={{ scale: 1.02 }}
             >
@@ -70,7 +76,17 @@ export default function Navbar() {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={(e) => { e.preventDefault(); handleLinkClick(link.href); }}
+                  onClick={(e) => {
+                    if (link.href.startsWith("http")) return;
+                    e.preventDefault();
+                    handleLinkClick(link.href);
+                  }}
+                  target={link.href.startsWith("http") ? "_blank" : undefined}
+                  rel={
+                    link.href.startsWith("http")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
                   className="relative px-4 py-2 text-sm font-medium text-[#f0f4eb]/80 hover:text-[#7ab648] transition-colors duration-200 group"
                 >
                   {link.label}
@@ -82,9 +98,10 @@ export default function Navbar() {
             {/* CTA + hamburger */}
             <div className="flex items-center gap-3">
               <motion.a
-                href="#contato"
-                onClick={(e) => { e.preventDefault(); handleLinkClick("#contato"); }}
-                className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#7ab648] text-[#0f1a08] font-bold text-sm hover:bg-[#8bc857] transition-all duration-200 shadow-lg shadow-[#7ab648]/25 hover:shadow-[#7ab648]/40"
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#7ab648] text-[#0f1a08] font-bold"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
               >
@@ -130,7 +147,20 @@ export default function Navbar() {
                 <motion.a
                   key={link.href}
                   href={link.href}
-                  onClick={(e) => { e.preventDefault(); handleLinkClick(link.href); }}
+                  onClick={(e) => {
+                    if (link.href.startsWith("http")) {
+                      setMenuOpen(false);
+                      return;
+                    }
+                    e.preventDefault();
+                    handleLinkClick(link.href);
+                  }}
+                  target={link.href.startsWith("http") ? "_blank" : undefined}
+                  rel={
+                    link.href.startsWith("http")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.06 }}
@@ -139,9 +169,12 @@ export default function Navbar() {
                   {link.label}
                 </motion.a>
               ))}
+
               <motion.a
-                href="#contato"
-                onClick={(e) => { e.preventDefault(); handleLinkClick("#contato"); }}
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: links.length * 0.06 }}
